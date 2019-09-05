@@ -285,11 +285,12 @@ open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
 
 	// Private
 
-	@objc private func didEditText() {
-		if let phoneCode = selectedCountry?.phoneCode, let number = text {
-			var cleanedPhoneNumber = clean(string: "\(phoneCode) \(number)")
-
-			if let validPhoneNumber = getValidNumber(phoneNumber: cleanedPhoneNumber) {
+    @objc private func didEditText() {
+        if let phoneCode = selectedCountry?.phoneCode, var number = text {
+            number = number.replacingOccurrences(of: phoneCode, with:"")
+            
+            var cleanedPhoneNumber = clean(string: "\(phoneCode) \(number)")
+            if let validPhoneNumber = getValidNumber(phoneNumber: cleanedPhoneNumber) {
 				nbPhoneNumber = validPhoneNumber
 
 				cleanedPhoneNumber = "+\(validPhoneNumber.countryCode.stringValue)\(validPhoneNumber.nationalNumber.stringValue)"
